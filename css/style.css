@@ -1,3 +1,33 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   background-color: chartreuse;
+}
+
+div {
+  height: 100px;
+  width: 100px;
+  background-color: red;
+}
+
+div.gameboard {
+  height: 400px;
+  width: 300px;
+  margin: 100px auto;
+  overflow: clear;
+  background-color: lightblue;
+}
+
+.gridblock {
+  float:left;
+  background-color: lightgrey;
+  border: 1px solid black;
+}
+
+.movingPiece {
+  float:left;
+  background-color: gold;
+  border: 1px solid black;
 }
