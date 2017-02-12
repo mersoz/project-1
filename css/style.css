@@ -13,7 +13,7 @@ div {
 }
 
 div.gameboard {
-  height: 400px;
+  height: 500px;
   width: 300px;
   margin: 50px auto;
   overflow: clear;

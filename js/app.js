@@ -3,9 +3,8 @@ console.log('JS loaded');
 $(() => {
   // Create and implement a grid
   const $gameboard = $('.gameboard');
-  //const numberOfGrids = 192;
   const width = 12;
-  const height = 16;
+  const height = 20;
   const numberOfGrids = width*height;
 
 //  const height = numberOfGrids/width;
@@ -29,8 +28,6 @@ $(() => {
     //if next row is not occupied, move one down
 
     if (index < numberOfGrids-width && !$allGrids.eq(index+width).hasClass('occupied')) {
-
-
       // console.log('move one down');
       index += width;
     } else {                  //if on top row and next row is not occupied
@@ -44,6 +41,9 @@ $(() => {
         console.log('next div full OR reached last row');
         console.log(index);
         $allGrids.eq(index).addClass('occupied');
+        // function to check for full row
+        //
+        //
         index = Math.floor((width-1)/2);
       }
     }
