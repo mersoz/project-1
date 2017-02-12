@@ -14,11 +14,6 @@ $(() => {
 
   const $allGrids = $('div.gridblock');
 
-
-
-
-
-
   //start dropping from middle of board
   let index = (width-1)/2;
   //drop piece one row down every second
@@ -32,12 +27,14 @@ $(() => {
     if (index < numberOfGrids-height && !$allGrids.eq(index+width).hasClass('occupied')) {
       console.log('move one down');
       index += width;
-    } else {
-      if (index<width) {
+    } else {                  //if on top row and next row is not occupied
+      if (index<width) {      // if on top row
+        //end game when top row is occupied
+        //--> should clearInterval before new piece ?
         $allGrids.eq(index).addClass('occupied');
         console.log('end game');
         clearInterval(dropping);
-      } else {
+      } else {                // if next row is occupied
         console.log('next div full OR reached last row');
         $allGrids.eq(index).addClass('occupied');
         index = (width-1)/2;
@@ -47,10 +44,10 @@ $(() => {
 
   //add event listener to window (this) to handle user keystrokes
   //or should bind?
-  // $(this).keydown((e) => {
-  //   alert('hi');
-  //   console.log(e.which);
-  // });
+  $(this).keydown((e) => {
+    alert('hi');
+    console.log(e.which);
+  });
 
 // //check if on last row
 // if (index > numberOfGrids-height) {
