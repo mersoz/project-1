@@ -7,15 +7,15 @@ body {
 }
 
 div {
-  height: 100px;
-  width: 100px;
+  height: 25px;
+  width: 25px;
   background-color: red;
 }
 
 div.gameboard {
   height: 400px;
   width: 300px;
-  margin: 100px auto;
+  margin: 50px auto;
   overflow: clear;
   background-color: lightblue;
 }
@@ -23,7 +23,7 @@ div.gameboard {
 .gridblock {
   float:left;
   background-color: lightgrey;
-  border: 1px solid black;
+  border: 0.5px solid grey;
 }
 
 .movingPiece {

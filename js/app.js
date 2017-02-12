@@ -3,9 +3,12 @@ console.log('JS loaded');
 $(() => {
   // Create and implement a grid
   const $gameboard = $('.gameboard');
-  const numberOfGrids = 12;
-  const width = 3;
-  const height = numberOfGrids/width;
+  //const numberOfGrids = 192;
+  const width = 12;
+  const height = 16;
+  const numberOfGrids = width*height;
+
+//  const height = numberOfGrids/width;
 
   for (var i = 0; i<numberOfGrids; i++) {
     var $gridblock = $('<div>', {'class': 'gridblock'});
@@ -13,19 +16,22 @@ $(() => {
   }
 
   const $allGrids = $('div.gridblock');
+  let index = Math.floor((width-1)/2);
 
   //start dropping from middle of board
-  let index = (width-1)/2;
   //drop piece one row down every second
-  const dropping = setInterval(dropPiece, 1000);
+  const dropping = setInterval(dropPiece, 100);
   function dropPiece(){
-    console.log(`Moving piece is on index: ${index}`);
+    // console.log(`Moving piece is on index: ${index}`);
     //  clear previous location of moving piece and
     $allGrids.removeClass('movingPiece');
     $allGrids.eq(index).addClass('movingPiece');
     //if next row is not occupied, move one down
-    if (index < numberOfGrids-height && !$allGrids.eq(index+width).hasClass('occupied')) {
-      console.log('move one down');
+
+    if (index < numberOfGrids-width && !$allGrids.eq(index+width).hasClass('occupied')) {
+
+
+      // console.log('move one down');
       index += width;
     } else {                  //if on top row and next row is not occupied
       if (index<width) {      // if on top row
@@ -36,8 +42,9 @@ $(() => {
         clearInterval(dropping);
       } else {                // if next row is occupied
         console.log('next div full OR reached last row');
+        console.log(index);
         $allGrids.eq(index).addClass('occupied');
-        index = (width-1)/2;
+        index = Math.floor((width-1)/2);
       }
     }
   }
@@ -45,8 +52,17 @@ $(() => {
   //add event listener to window (this) to handle user keystrokes
   //or should bind?
   $(this).keydown((e) => {
-    alert('hi');
     console.log(e.which);
+    // left 37
+    if (e.which === 37) {           // LEFT
+      index-=1;
+    } else if (e.which === 39) {    // RIGHT
+      index+=1;
+    } else if (e.which === 40) {    // DOWN
+      index+=width;
+    }
+    // up 38 - turn shape
+    // down 40 -
   });
 
 // //check if on last row
