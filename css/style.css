@@ -31,3 +31,7 @@ div.gameboard {
   background-color: gold;
   border: 1px solid black;
 }
+
+.occupied {
+  background-color: black;
+}

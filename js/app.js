@@ -4,6 +4,8 @@ $(() => {
   // Create and implement a grid
   const $gameboard = $('.gameboard');
   const numberOfGrids = 12;
+  const width = 3;
+  const height = numberOfGrids/width;
 
   for (var i = 0; i<numberOfGrids; i++) {
     var $gridblock = $('<div>', {'class': 'gridblock'});
@@ -12,21 +14,56 @@ $(() => {
 
   const $allGrids = $('div.gridblock');
 
-  let index = 1;
+
+
+
+
+
+  //start dropping from middle of board
+  let index = (width-1)/2;
+  //drop piece one row down every second
+  const dropping = setInterval(dropPiece, 1000);
   function dropPiece(){
-    console.log(index);
-//    while( index < numberOfGrids ){
+    console.log(`Moving piece is on index: ${index}`);
+    //  clear previous location of moving piece and
     $allGrids.removeClass('movingPiece');
-    $allGrids.eq(index).toggleClass('movingPiece');
-    if (index > numberOfGrids-4) {
-      console.log('reached bottom row');
-      clearInterval(dropping);
-      index = 0;
+    $allGrids.eq(index).addClass('movingPiece');
+    //if next row is not occupied, move one down
+    if (index < numberOfGrids-height && !$allGrids.eq(index+width).hasClass('occupied')) {
+      console.log('move one down');
+      index += width;
+    } else {
+      if (index<width) {
+        $allGrids.eq(index).addClass('occupied');
+        console.log('end game');
+        clearInterval(dropping);
+      } else {
+        console.log('next div full OR reached last row');
+        $allGrids.eq(index).addClass('occupied');
+        index = (width-1)/2;
+      }
     }
-    index += 3;
   }
 
-  var dropping = setInterval(dropPiece, 1000);
+  //add event listener to window (this) to handle user keystrokes
+  //or should bind?
+  // $(this).keydown((e) => {
+  //   alert('hi');
+  //   console.log(e.which);
+  // });
+
+// //check if on last row
+// if (index > numberOfGrids-height) {
+//   clearInterval(dropping);
+//   }
+//   setTimeout(() => {
+//     dropping = setInterval(dropPiece, 1000);
+//   }, 1000);
+// }
+
+
+
+
 
   // for (i = 0; i<12; i++) {
   //   setInterval(() => {
@@ -43,5 +80,4 @@ $(() => {
 
   // Give some restrictions to the shapes movement
 
-  // Handle the user keystrokes
 });
