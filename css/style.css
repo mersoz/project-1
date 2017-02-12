@@ -3,7 +3,7 @@
 }
 
 body {
-  background-color: chartreuse;
+  background-color: chartreuse; /* #7FFF00 */
 }
 
 div {
@@ -16,22 +16,25 @@ div.gameboard {
   height: 500px;
   width: 300px;
   margin: 50px auto;
+  border: 1px solid black;
+
+  box-sizing: content-box;
   overflow: clear;
   background-color: lightblue;
 }
 
 .gridblock {
-  float:left;
-  background-color: lightgrey;
-  border: 0.5px solid grey;
+  float: left;
+  background-color: lightgrey; /* #D3D3D3 */
+  border: 1px solid grey; /* #808080 */
 }
 
 .movingPiece {
   float:left;
-  background-color: gold;
+  background-color: gold; /* #FFD700 */
   border: 1px solid black;
 }
 
 .occupied {
-  background-color: black;
+  background-color: grey;
 }
