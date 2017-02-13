@@ -37,4 +37,5 @@ div.gameboard {
 
 .occupied {
   background-color: grey;
+  border: none;
 }

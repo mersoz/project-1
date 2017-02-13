@@ -7,9 +7,21 @@ $(() => {
   const height = 20;
   const numberOfGrids = width*height;
 
-//  const height = numberOfGrids/width;
+  //
+  const arrayOfRows = [];   //big array with 20 other arrays
 
-  for (var i = 0; i<numberOfGrids; i++) {
+  for ( let initNum = 0; initNum < numberOfGrids; initNum+=width ) {
+    console.log(`Begin array with: ${initNum}`);
+    const oneRow = []; //small array with index of each square on row
+    for ( let indexOfEach = initNum; indexOfEach < initNum+width; indexOfEach++) {
+      oneRow.push(indexOfEach);
+    }
+    arrayOfRows.push(oneRow);
+  }
+  console.log(arrayOfRows);
+
+
+  for (var i = 0; i < numberOfGrids; i++) {
     var $gridblock = $('<div>', {'class': 'gridblock'});
     $gameboard.append($gridblock);
   }
@@ -42,12 +54,14 @@ $(() => {
         console.log(index);
         $allGrids.eq(index).addClass('occupied');
         // function to check for full row
-        //
-        //
+
+
         index = Math.floor((width-1)/2);
       }
+
     }
   }
+
 
   //add event listener to window (this) to handle user keystrokes
   //or should bind?
