@@ -30,28 +30,51 @@ $(() => {
   //drop piece one row down every second
   const dropping = setInterval(dropPiece, 100);
   function dropPiece(){
+    var indices = spawnPiece();
     // console.log(`Moving piece is on index: ${index}`);
-    //  clear previous location of moving piece and
+    // clear previous location of moving piece and
     $allGrids.removeClass('movingPiece');
-    $allGrids.eq(index).addClass('movingPiece');
-    //if next row is not occupied, move one down
+    for (var p = 0; p < indices.length; p++) {
+      $allGrids.eq(indices[p]).addClass('movingPiece');
+    }
 
+    //if next row is not occupied, move one down
     if (index < numberOfGrids-width && !$allGrids.eq(index+width).hasClass('occupied')) {
-      // console.log('move one down');
-      index += width;
+      index += width;         // console.log('move one down');
     } else {                  //if on top row and next row is not occupied
-      $allGrids.eq(index).addClass('occupied');
+      for (var g = 0; g < indices.length; g++) {
+        $allGrids.eq(indices[g]).addClass('occupied');
+      }
+
+      // $allGrids.eq(index).addClass('occupied');
       checkRemoveFullRowsDropAll();
+
       if (index<width) {      // if on top row
         //end game when top row is occupied
         //--> should clearInterval before new piece ?
-        console.log('end game');
+        $allGrids.removeClass('movingPiece');
+        // console.log('end game');
+
         clearInterval(dropping);
       } else {                // if next row is occupied
-        console.log('next div full OR reached last row');
-        console.log(index);
+        // console.log('next div full OR reached last row');
+        // console.log(index);
         index = Math.floor((width-1)/2);
       }
+    }
+
+    function spawnPiece() {
+      const shapesAvailable = {
+        I: [index, index+width, index+(2*width), index+(3*width)],
+        O: [index, index+1, index+width+1, index+width],
+        T: [index, index+width+1, index+width, index+width-1],
+        L: [index, index+width, index+(2*width), index+(2*width)+1],
+        J: [index, index+width, index+(2*width), index+(2*width)-1],
+        S: [index, index+1, index+width, index+width-1],
+        Z: [index, index-1, index+width, index+width+1]
+      };
+      //return random property
+      return shapesAvailable['S'];
     }
 
     function checkRemoveFullRowsDropAll() {
@@ -83,24 +106,13 @@ $(() => {
     if (e.which === 37 && index % width !== 0 ) {           // LEFT
       //while index is not the left-most div
       index-=1;
-    } else if (e.which === 39 && index % width !== 11 ) {    // RIGHT
+    } else if (e.which === 39 && index % width !== width - 1 ) {    // RIGHT
       //while index is not the right-most div
       index+=1;
     } else if (e.which === 40) {    // DOWN
       index+=width;
     }
   // up 38 - turn shape
-    // down 40 -
+
   });
-
-  // Implement a generic (base) class for the shapes
-    // add a class for the single square shape
-    // add a class for the block square shape
-    // add a class for the long shape
-    // add a class for the twisted shape
-    // add a class for the three-way shape
-    // Make the shapes move across the grid
-
-  // Give some restrictions to the shapes movement
-
 });
