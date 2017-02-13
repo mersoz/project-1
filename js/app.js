@@ -80,9 +80,11 @@ $(() => {
   $(this).keydown((e) => {
     // console.log(e.which);
     // left 37
-    if (e.which === 37) {           // LEFT
+    if (e.which === 37 && index % width !== 0 ) {           // LEFT
+      //while index is not the left-most div
       index-=1;
-    } else if (e.which === 39) {    // RIGHT
+    } else if (e.which === 39 && index % width !== 11 ) {    // RIGHT
+      //while index is not the right-most div
       index+=1;
     } else if (e.which === 40) {    // DOWN
       index+=width;
