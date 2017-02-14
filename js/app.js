@@ -18,10 +18,10 @@ $(() => {
   let initIndices = [];
   let rotationIndices = [];
   let index = Math.floor((width-1)/2);    //start dropping from middle of board
-  const dropping = setInterval(dropPiece, 1000);
+  const dropping = setInterval(dropPiece, 500);
 
   // Create an array for each rown with indexes
-    // Push each array into another for all arrays/rows
+  //  Push each array into another for all arrays/rows
   const arrayOfRows = [];   //big array with 20 other arrays
   for ( let initNum = 0; initNum < numberOfGrids; initNum+=width ) {
     const oneRow = []; //small array with index of each square on row
@@ -37,26 +37,26 @@ $(() => {
       O: [[index, index+width, index+1, index+width+1]],
 
       I: [[index, index+width, index+(2*width), index+(3*width)],
-         [index, index+1, index+2, index+3]],
+         [index-1, index, index+1, index+2]],
 
       S: [[index+1, index+2, index+width, index+width+1],
          [index, index+width, index+width+1, index+(2*width)+1]],
 
       Z: [[index, index+1, index+width+1, index+width+2],
-         [index+width, index+width, index+width+1, index+(2*width)]],
+         [index+1, index+width, index+width+1, index+(2*width)]],
 
-      L: [[index, index+width, index+(2*width), index+(2*width)+1],
-         [index, index+width, index+1, index+2],
-         [index, index+1, index+width+1, index+(2*width)+1],
+      L: [[index+1, index+width+1, index+(2*width)+1, index+(2*width)+2],
+         [index+width, index+width+1, index+width+2, index+(2*width)],
+         [index+1, index+2, index+width+2, index+(2*width)+2],
          [index+width, index+width+1, index+width+2, index+2]],
 
-      J: [[index+1, index+width+1, index+(2*width), index+(2*width)+1],
-         [index, index+width, index+width+1, index+width+2],
-         [index, index+1, index+width, index+(2*width)],
-         [index, index+1, index+2, index+width+2]],
+      J: [[index+2, index+width+2, index+(2*width)+1, index+(2*width)+2],
+         [index+width, index+(2*width), index+(2*width)+1, index+(2*width)+2],
+         [index+1, index+2, index+width+1, index+(2*width)+1],
+         [index+width, index+width+1, index+width+2, index+(2*width)+2]],
 
       T: [[index+1, index+width, index+width+1, index+width+2],
-         [index, index+width, index+width+1, index+(2*width)],
+         [index+1, index+width+1, index+width+2, index+(2*width)+1],
          [index, index+1, index+2, index+width+1],
          [index+1, index+width, index+width+1, index+(2*width)+1]]
     };
@@ -66,7 +66,7 @@ $(() => {
     // const randomNum = Math.floor( Math.random() * arrOfShapeOptions.length);
     // const randomShape = arrOfShapeOptions[randomNum];
     // return shapesAvailable[randomShape];
-    return shapesAvailable['I'];
+    return shapesAvailable['T'];
   }
 
   function dropPiece(){
@@ -78,7 +78,7 @@ $(() => {
     // clear previous location of moving piece and
     $allGrids.removeClass('movingPiece');
     for (var p = 0; p < initIndices.length; p++) {
-      console.log(initIndices);
+      //console.log(initIndices);
       $allGrids.eq(initIndices[p]).addClass('movingPiece');
     }
     // console.log(initIndices);
@@ -182,11 +182,27 @@ $(() => {
       index+=1;
     } else if ( e.which === 40 ) {    //move one rown down
       index+=2*width;
-    } else if ( e.which === 38 ) {
+    } else if ( e.which === 87 ) {
+      console.log(rotationIndex);
       rotationIndex++;
-      // console.log(rotationIndices, rotationIndex % rotationIndices.length);
+      console.log(rotationIndex);
       rotationIndex = rotationIndex % rotationIndices.length;
+      console.log(rotationIndex);
+
+    } else if ( e.which === 81 ) {
+      console.log(rotationIndex);
+      rotationIndex--;
+      console.log(rotationIndex);
+      if (rotationIndex < 0) {
+        rotationIndex = rotationIndices.length-1;
+        console.log(rotationIndex);
+
+      } else {
+        rotationIndex = rotationIndex % rotationIndices.length;
+        console.log(rotationIndex);
+
+      }
     }
-    // up 38 - turn shape
+
   });
 });
