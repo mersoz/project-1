@@ -33,26 +33,32 @@ $(() => {
 
   function spawnPiece() {
     const shapesAvailable = {
-      I: [[index, index+width, index+(2*width), index+(3*width)],
-         [index, index+1, index+2, index+3]],
 
       O: [[index, index+width, index+1, index+width+1]],
 
-      T: [[index+1, index+width, index+width+1, index+width+2],
-          [index, index+width, index+width+1, index+(2*width)],
-          [index, index+1, index+2, index+width+1],
-          [index+1, index+width, index+width+1, index+(2*width)+1]],
+      I: [[index, index+width, index+(2*width), index+(3*width)],
+         [index, index+1, index+2, index+3]],
+
+      S: [[index+1, index+2, index+width, index+width+1],
+         [index, index+width, index+width+1, index+(2*width)+1]],
+
+      Z: [[index, index+1, index+width+1, index+width+2],
+         [index+width, index+width, index+width+1, index+(2*width)]],
 
       L: [[index, index+width, index+(2*width), index+(2*width)+1],
-         [index, index+width, index+(2*width), index+(2*width)+1],
-         [index, index+width, index+(2*width), index+(2*width)+1],
-         [index, index+width, index+(2*width), index+(2*width)+1]],
+         [index, index+width, index+1, index+2],
+         [index, index+1, index+width+1, index+(2*width)+1],
+         [index+width, index+width+1, index+width+2, index+2]],
 
-      J: [index, index+width, index+(2*width), index+(2*width)-1],
+      J: [[index+1, index+width+1, index+(2*width), index+(2*width)+1],
+         [index, index+width, index+width+1, index+width+2],
+         [index, index+1, index+width, index+(2*width)],
+         [index, index+1, index+2, index+width+2]],
 
-      S: [index, index+width, index+1, index+width-1],
-
-      Z: [index, index+width, index-1, index+width+1]
+      T: [[index+1, index+width, index+width+1, index+width+2],
+         [index, index+width, index+width+1, index+(2*width)],
+         [index, index+1, index+2, index+width+1],
+         [index+1, index+width, index+width+1, index+(2*width)+1]]
     };
 
     //return random property
@@ -60,7 +66,7 @@ $(() => {
     // const randomNum = Math.floor( Math.random() * arrOfShapeOptions.length);
     // const randomShape = arrOfShapeOptions[randomNum];
     // return shapesAvailable[randomShape];
-    return shapesAvailable['T'];
+    return shapesAvailable['I'];
   }
 
   function dropPiece(){
