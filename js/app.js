@@ -118,11 +118,16 @@ $(() => {
     // const randomNum = Math.floor( Math.random() * arrOfShapeOptions.length);
     // const randomShape = arrOfShapeOptions[randomNum];
     // return shapesAvailable[randomShape];
-    return shapesAvailable['T'];
+    return shapesAvailable['O'];
   }
 
   function canGoLeft() {
     //check for occupied one left (index-1)
+    for (var l = 0; l < initIndices.length; l++) {
+      if ($allGrids.eq(initIndices[l]-1).hasClass('occupied')) {
+        return false;
+      }
+    }
     //lowest value when divisible by width
     return initIndices.every((index) => {
       return index % width !== 0;
@@ -130,7 +135,12 @@ $(() => {
   }
 
   function canGoRight() {
-  //lowest value when divisible by width
+    //check for occupied one left (index-1)
+    for (var l = 0; l < initIndices.length; l++) {
+      if ($allGrids.eq(initIndices[l]-1).hasClass('occupied')) {
+        return false;
+      }
+    }  //lowest value when divisible by width
     return initIndices.every((index) => {
       return index % width !== width - 1;
     });
