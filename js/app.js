@@ -18,7 +18,7 @@ $(() => {
   let initIndices = [];
   let rotationIndices = [];
   let index = Math.floor((width-1)/2);    //start dropping from middle of board
-  const dropping = setInterval(dropPiece, 500);
+  const dropping = setInterval(dropPiece, 100);
 
   // Create an array for each rown with indexes
   //  Push each array into another for all arrays/rows
