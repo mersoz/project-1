@@ -14,9 +14,11 @@ $(() => {
   const $allGrids = $('div.gridblock');
 
   // Initialize stuff
+  let rotationIndex = 0;
   let initIndices = [];
+  let rotationIndices = [];
   let index = Math.floor((width-1)/2);    //start dropping from middle of board
-  const dropping = setInterval(dropPiece, 100);
+  const dropping = setInterval(dropPiece, 1000);
 
   // Create an array for each rown with indexes
     // Push each array into another for all arrays/rows
@@ -29,18 +31,51 @@ $(() => {
     arrayOfRows.push(oneRow);
   }
 
+  function spawnPiece() {
+    const shapesAvailable = {
+      I: [[index, index+width, index+(2*width), index+(3*width)],
+         [index, index+1, index+2, index+3]],
 
+      O: [[index, index+width, index+1, index+width+1]],
+
+      T: [[index+1, index+width, index+width+1, index+width+2],
+          [index, index+width, index+width+1, index+(2*width)],
+          [index, index+1, index+2, index+width+1],
+          [index+1, index+width, index+width+1, index+(2*width)+1]],
+
+      L: [[index, index+width, index+(2*width), index+(2*width)+1],
+         [index, index+width, index+(2*width), index+(2*width)+1],
+         [index, index+width, index+(2*width), index+(2*width)+1],
+         [index, index+width, index+(2*width), index+(2*width)+1]],
+
+      J: [index, index+width, index+(2*width), index+(2*width)-1],
+
+      S: [index, index+width, index+1, index+width-1],
+
+      Z: [index, index+width, index-1, index+width+1]
+    };
+
+    //return random property
+    // const arrOfShapeOptions = Object.keys(shapesAvailable);
+    // const randomNum = Math.floor( Math.random() * arrOfShapeOptions.length);
+    // const randomShape = arrOfShapeOptions[randomNum];
+    // return shapesAvailable[randomShape];
+    return shapesAvailable['T'];
+  }
 
   function dropPiece(){
-    initIndices = spawnPiece();
+    rotationIndices = spawnPiece();
+    // rotationIndex = 1;
+    initIndices = rotationIndices[rotationIndex];
 
     // console.log(`Moving piece is on index: ${index}`);
     // clear previous location of moving piece and
     $allGrids.removeClass('movingPiece');
     for (var p = 0; p < initIndices.length; p++) {
+      console.log(initIndices);
       $allGrids.eq(initIndices[p]).addClass('movingPiece');
     }
-    console.log(initIndices);
+    // console.log(initIndices);
 
     function nextRowFull(){
       const occ = [];
@@ -66,6 +101,7 @@ $(() => {
       for (var g = 0; g < initIndices.length; g++) {
         $allGrids.eq(initIndices[g]).addClass('occupied');
         console.log('occupy');
+        rotationIndex = 0;
       }
 
       // $allGrids.eq(index).addClass('occupied');
@@ -103,23 +139,7 @@ $(() => {
 
   }
 
-  function spawnPiece() {
-    const shapesAvailable = {
-      I: [index, index+width, index+(2*width), index+(3*width)],
-      O: [index, index+width, index+1, index+width+1],
-      T: [index, index+width, index+width+1, index+width-1],
-      L: [index, index+width, index+(2*width), index+(2*width)+1],
-      J: [index, index+width, index+(2*width), index+(2*width)-1],
-      S: [index, index+width, index+1, index+width-1],
-      Z: [index, index+width, index-1, index+width+1]
-    };
-    //return random property
-    // const arrOfShapeOptions = Object.keys(shapesAvailable);
-    // const randomNum = Math.floor( Math.random() * arrOfShapeOptions.length);
-    // const randomShape = arrOfShapeOptions[randomNum];
-    // return shapesAvailable[randomShape];
-    return shapesAvailable['O'];
-  }
+
 
   function canGoLeft() {
     //check for occupied one left (index-1)
@@ -137,7 +157,7 @@ $(() => {
   function canGoRight() {
     //check for occupied one left (index-1)
     for (var l = 0; l < initIndices.length; l++) {
-      if ($allGrids.eq(initIndices[l]-1).hasClass('occupied')) {
+      if ($allGrids.eq(initIndices[l]+1).hasClass('occupied')) {
         return false;
       }
     }  //lowest value when divisible by width
@@ -155,27 +175,12 @@ $(() => {
     } else if ( e.which === 39 && canGoRight() ) {  //while index is not the right-most div
       index+=1;
     } else if ( e.which === 40 ) {    //move one rown down
-      index+=width;
+      index+=2*width;
+    } else if ( e.which === 38 ) {
+      rotationIndex++;
+      // console.log(rotationIndices, rotationIndex % rotationIndices.length);
+      rotationIndex = rotationIndex % rotationIndices.length;
     }
     // up 38 - turn shape
   });
-
 });
-
-
-// for (let i = 0; i < initIndices.length; i++) {
-//   const closeToLeft = initIndices.map( (leftIndex) => {
-//     return leftIndex % width;
-//   });
-//   //if touching left
-//   const leftMostValue = Math.min.apply(Math, closeToLeft);
-//   if (leftMostValue !== 0) {
-//     console.log('hi');
-//     return true;
-//   } else {
-//     console.log('touching the left most div');
-//     return false;
-//   }
-//   //console.log(closeToLeft);
-//   //return index with left-most value
-// }
