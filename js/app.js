@@ -16,9 +16,8 @@ $(() => {
   // Initialize stuff
   let rotationIndex = 0;
   let initIndices = [];
-  let rotationIndices = [];
   let index = Math.floor((width-1)/2);    //start dropping from middle of board
-  const dropping = setInterval(dropPiece, 100);
+  const dropping = setInterval(dropPiece, 200);
 
   // Create an array for each rown with indexes
   //  Push each array into another for all arrays/rows
@@ -31,9 +30,12 @@ $(() => {
     arrayOfRows.push(oneRow);
   }
 
-  function spawnPiece() {
-    const shapesAvailable = {
+  const shapeNames = ['O', 'I', 'S', 'Z', 'L', 'J', 'T'];
+  let randomShapeName = shapeNames[Math.floor(Math.random() * shapeNames.length)];
+  let rotationIndices = spawnPiece(randomShapeName, index);
 
+  function spawnPiece(name, index) {
+    var shapesAvailable = {
       O: [[index, index+width, index+1, index+width+1]],
 
       I: [[index, index+width, index+(2*width), index+(3*width)],
@@ -61,27 +63,23 @@ $(() => {
          [index+1, index+width, index+width+1, index+(2*width)+1]]
     };
 
-    //return random property
-    // const arrOfShapeOptions = Object.keys(shapesAvailable);
-    // const randomNum = Math.floor( Math.random() * arrOfShapeOptions.length);
-    // const randomShape = arrOfShapeOptions[randomNum];
-    // return shapesAvailable[randomShape];
-    return shapesAvailable['T'];
+    return shapesAvailable[name];
   }
 
   function dropPiece(){
-    rotationIndices = spawnPiece();
-    // rotationIndex = 1;
+    console.log('dropping');
     initIndices = rotationIndices[rotationIndex];
-
-    // console.log(`Moving piece is on index: ${index}`);
     // clear previous location of moving piece and
     $allGrids.removeClass('movingPiece');
     for (var p = 0; p < initIndices.length; p++) {
-      //console.log(initIndices);
       $allGrids.eq(initIndices[p]).addClass('movingPiece');
     }
-    // console.log(initIndices);
+
+    function canGoDown() { //when not on bottom row
+      return initIndices.every((index) => {
+        return index < numberOfGrids - width;
+      });
+    }
 
     function nextRowFull(){
       const occ = [];
@@ -93,32 +91,32 @@ $(() => {
       }
     }
 
-    function canGoDown() {
-    //lowest value when divisible by width
-      return initIndices.every((index) => {
-        return index < numberOfGrids - width;
-      });
-    }
-
-    // if (index < numberOfGrids-width && !nextRowFull()) {
     if (canGoDown() && !nextRowFull()) {
-      index += width;         // console.log('move one down');
-    } else {                  //if on top row and next row is not occupied
       for (var g = 0; g < initIndices.length; g++) {
-        $allGrids.eq(initIndices[g]).addClass('occupied');
-        console.log('occupy');
+        initIndices[g]+=width;  // console.log('move one down');
+      }
+    } else {                  //if on top row and next row is not occupied
+      for (var y = 0; y < initIndices.length; y++) {
+        $allGrids.eq(initIndices[y]).addClass('occupied');
+        randomShapeName = shapeNames[Math.floor(Math.random() * shapeNames.length)];
+        rotationIndices = spawnPiece(randomShapeName, index);
         rotationIndex = 0;
       }
 
-      // $allGrids.eq(index).addClass('occupied');
       checkRemoveFullRowsDropAll();
+      console.log(index);
 
-      if (index<width) {      // end game if on top row
+      if (initIndices.every((index) => {     //lowest value
+        return index < width;
+      })) {      // end game if on top row
         //--> should clearInterval before new piece ?
         $allGrids.removeClass('movingPiece');
         clearInterval(dropping);
       } else {                // if next row is occupied
         index = Math.floor((width-1)/2);
+        randomShapeName = shapeNames[Math.floor(Math.random() * shapeNames.length)];
+        rotationIndices = spawnPiece(randomShapeName, index);
+        rotationIndex = 0;
       }
     }
 
@@ -129,45 +127,43 @@ $(() => {
     function checkRemoveFullRowsDropAll() {
       arrayOfRows.forEach( (thisArray) => {
         var isRowFull = thisArray.map( (indexNumber) => {
+          // console.log(thisArray);
           return $allGrids.eq(indexNumber).hasClass('occupied');
         }); //returns array of true and false
+
+//======= potential glitch: when two non-adjacent rows are cleared, the mid-not-full row will probably clear as well ==//
         if (isRowFull.every(isSquareFull)) {
-          console.log(isRowFull);
-          let l = $allGrids.length;
+          // let l = $allGrids.length;
+          let l = thisArray[thisArray.length-1];
           while (l > width) {
             var classToChangeTo = $allGrids.eq(l-width).attr('class');
+            // console.log($allGrids.eq(l-width).attr('class'));
             $allGrids.eq(l).attr('class', classToChangeTo);
             l--;
           }
         }
       });
     }
-
   }
 
-
-
   function canGoLeft() {
-    //check for occupied one left (index-1)
-    for (var l = 0; l < initIndices.length; l++) {
+    for (var l = 0; l < initIndices.length; l++) {     //check for occupied one left (index-1)
       if ($allGrids.eq(initIndices[l]-1).hasClass('occupied')) {
         return false;
       }
     }
-    //lowest value when divisible by width
-    return initIndices.every((index) => {
+    return initIndices.every((index) => {     //lowest value
       return index % width !== 0;
     });
   }
 
   function canGoRight() {
-    //check for occupied one left (index-1)
-    for (var l = 0; l < initIndices.length; l++) {
+    for (var l = 0; l < initIndices.length; l++) {   //check for occupied one left (index-1)
       if ($allGrids.eq(initIndices[l]+1).hasClass('occupied')) {
         return false;
       }
-    }  //lowest value when divisible by width
-    return initIndices.every((index) => {
+    }
+    return initIndices.every((index) => {  //hightest value
       return index % width !== width - 1;
     });
   }
@@ -176,33 +172,28 @@ $(() => {
   $(this).keydown((e) => {          // should bind?
     // if (e.which === 37 && checkLeft ) {   //while index is not the left-most div
     if ( e.which === 37 && canGoLeft() ) {   //while index is not the left-most div
-      index-=1;
+      for (var g = 0; g < initIndices.length; g++) {
+        initIndices[g]-=1;
+      }
     // } else if (e.which === 39  &&  index % width !== width - 1 ) {  //while index is not the right-most div
     } else if ( e.which === 39 && canGoRight() ) {  //while index is not the right-most div
-      index+=1;
+      for (var u = 0; u < initIndices.length; u++) {
+        initIndices[u]+=1;
+      }
     } else if ( e.which === 40 ) {    //move one rown down
-      index+=2*width;
+      for (var p = 0; p < initIndices.length; p++) {
+        initIndices[p]+=2*width;
+      }
     } else if ( e.which === 87 ) {
-      console.log(rotationIndex);
       rotationIndex++;
-      console.log(rotationIndex);
       rotationIndex = rotationIndex % rotationIndices.length;
-      console.log(rotationIndex);
-
     } else if ( e.which === 81 ) {
-      console.log(rotationIndex);
       rotationIndex--;
-      console.log(rotationIndex);
       if (rotationIndex < 0) {
         rotationIndex = rotationIndices.length-1;
-        console.log(rotationIndex);
-
       } else {
         rotationIndex = rotationIndex % rotationIndices.length;
-        console.log(rotationIndex);
-
       }
     }
-
   });
 });
