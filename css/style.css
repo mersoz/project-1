@@ -1,6 +1,6 @@
 * {
   box-sizing: border-box;
-  margin: 0;
+  margin: 0 auto;
 }
 
 html {
@@ -9,27 +9,64 @@ html {
 
 body {
   background-color: chartreuse; /* #7FFF00 */
-  height: 100%;
 }
 
+main {
+  text-align: center;
+}
+
+section {
+  width: 400px;
+}
+
+div.instructions {
+  float: left;
+  top: 100px;
+  position: absolute;
+  padding: 10px;
+  margin: 10px;
+
+  background-color: pink;
+  text-align: center;
+}
+
+div.scoreboard {
+  height: 50px;
+  width: 50px;
+  background-color: red;
+  float: right;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+p {
+padding: 10px;
+}
+
+button.startGame {
+  margin: 20px auto;
+  width: 400px;
+  height: 50px;
+
+}
+
+button.pause {
+  margin: 0 auto;
+  width: 200px;
+  height: 50px;
+}
+
+/*  GAME SPECS  */
 div.gameboard {
   height: 500px;
   width: 300px;
-  margin: 50px auto;
+  margin: 20px auto;
   border: 1px solid black;
 
   box-sizing: content-box;
   overflow: clear;
   background-color: lightblue;
-}
-
-div.instructions {
-  background-color: pink;
-  text-align: center;
-  float: left;
-  position: absolute;
-  top: 0;
-
 }
 
 div.gridblock {
@@ -45,9 +82,19 @@ div.movingPiece {
   float: left;
   background-color: gold; /* #FFD700 */
   border: 1px solid black;
+  /*COLORS
+  O: #ff6961 - red
+  I: #ffb347 - orange
+  S: #fdfd96 - yellow
+  Z: #77dd77 - green
+  L: #aec6cf - blue
+  J: #b19cd9 - purple
+  T: #ffd1dc - pink
+  */
 }
 
 div.occupied {
-  background-color: grey;
-  border: none;
+  /*background-color: grey;*/
+  border: 1px solid black;
+
 }

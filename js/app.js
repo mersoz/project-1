@@ -6,18 +6,22 @@ $(() => {
   const height = 20;
   const numberOfGrids = width*height;
 
+  const $scoreboard = $('.scoreboard');
   const $gameboard = $('.gameboard');
   for (var i = 0; i < numberOfGrids; i++) {
     var $gridblock = $('<div>', {'class': 'gridblock'});
     $gameboard.append($gridblock);
   }
   const $allGrids = $('div.gridblock');
+  const $play = $('button');
 
   // Initialize stuff
   let rotationIndex = 0;
   let currentRotation = [];
   let index = Math.floor((width-1)/2);    //start dropping from middle of board
-  const dropping = setInterval(letsPlay, 1000);
+  let dropping = null;
+  let score = 0;
+  $scoreboard.html(score);
 
   // Create an array for each rown with indexes
   //  Push each array into another for all arrays/rows
@@ -31,8 +35,26 @@ $(() => {
   }
 
   const shapeNames = ['O', 'I', 'S', 'Z', 'L', 'J', 'T'];
+  const shapeColors = {
+    'O': '#ff6961',
+    'I': '#ffb347',
+    'S': '#fdfd96',
+    'Z': '#77dd77',
+    'L': '#aec6cf',
+    'J': '#b19cd9',
+    'T': '#ffd1dc'
+  };
+
   let randomShapeName = shapeNames[Math.floor(Math.random() * shapeNames.length)];
   let rotationIndices = spawnPiece(randomShapeName, index);
+
+  function reSetGame() {
+    $allGrids.removeClass('movingPiece').removeClass('occupied');
+    $.each($allGrids, (index) => {
+      $allGrids.eq(index).css('background-color', 'lightgrey');
+    });
+    score = 0;
+  }
 
   function spawnPiece(name, index) {
     var shapesAvailable = {
@@ -65,12 +87,21 @@ $(() => {
     return shapesAvailable[name];
   }
 
+
   function updateLocation() {
+    // console.log(randomShapeName);
     $allGrids.removeClass('movingPiece');
     currentRotation = rotationIndices[rotationIndex];
     for (var p = 0; p < currentRotation.length; p++) {
-      $allGrids.eq(currentRotation[p]).addClass('movingPiece');
+      $allGrids.eq(currentRotation[p]).addClass('movingPiece')
+      .css('background-color', shapeColors[randomShapeName]);
     }
+
+    $.each($allGrids, (index) => {
+      if (!$allGrids.eq(index).hasClass('movingPiece') && !$allGrids.eq(index).hasClass('occupied')) {
+        $allGrids.eq(index).css('background-color', 'lightgrey');
+      }
+    });
   }
 
   function isTrue(element) {
@@ -136,11 +167,13 @@ $(() => {
         return $allGrids.eq(indexNumber).hasClass('occupied');
       }); //returns array of true and false
       if (isRowFull.every(isTrue)) {
-        // let l = $allGrids.length;
+        score+=width;
+        $scoreboard.html(score);
         let l = thisArray[thisArray.length-1];
         while (l > width) {
+          var colorToChangeTo = $allGrids.eq(l-width).css('background-color');
           var classToChangeTo = $allGrids.eq(l-width).attr('class');
-          // console.log($allGrids.eq(l-width).attr('class'));
+          $allGrids.eq(l).css('background-color', colorToChangeTo);
           $allGrids.eq(l).attr('class', classToChangeTo);
           l--;
         }
@@ -153,13 +186,13 @@ $(() => {
     $allGrids.removeClass('movingPiece');
     clearInterval(dropping);
     setTimeout( () => {
-      alert('Game over');
+      alert(`Final score: ${score}`);
     }, 500);
   }
 
   function letsPlay() {
     updateLocation();
-    shiftIfRotationCrossesBorder();
+    shiftIfCrossingBorder();
     if (canGoDown()) {
       updateIndices(width);
     } else {
@@ -182,43 +215,40 @@ $(() => {
     updateLocation();
   }
 
-  function shiftIfRotationCrossesBorder() {
-    console.log('inside border checker');
+  function shiftIfCrossingBorder() {
     var moduloArray = currentRotation.map( (each) => {
       return each%width;
     });
-    console.log(moduloArray);
-
     var max = Math.max.apply(Math, moduloArray);
     var min = Math.min.apply(Math, moduloArray);
-    console.log(max, min);
-
     if (max === width-1 && min === 0) {
       if (moduloArray.includes(1)) {
         if (moduloArray.includes(width-2)) {
           updateIndices(-2);
-          console.log('moving piece 2 left');
-
         } else {
           updateIndices(1);
-          console.log('moving piece 1 right');
-
         }
       } else if (moduloArray.includes(width-2)) {
         updateIndices(-1);
-        console.log('moving piece 1 left');
       }
     }
-    console.log('-------------');
   }
 
   //  LISTENERS FOR ARROW KEYS  //
-  $(this).keydown((e) => {          // should bind?
+  $play.on('click', () => {
+    reSetGame();
+    setTimeout( () => {
+      dropping = setInterval(letsPlay, 200);
+    }, 1000);
+  });
+
+  $(this).keydown((e) => {        // should bind?
     if ( e.which === 37 && canGoLeft() ) {   //while index is not the left-most div
       updateIndices(-1);
     } else if ( e.which === 39 && canGoRight() ) {  //while index is not the right-most div
       updateIndices(1);
     } else if ( e.which === 40 ) {    //move one rown down
+      e.preventDefault();
       updateIndices(width);
     } else if ( e.which === 87 ) {  // W
       rotationIndex++;
@@ -234,10 +264,10 @@ $(() => {
   });
 });
 
-// BORDER CONTROL FOR TURNS
-// ADD SCORE
 // STYLING
 // PLAY/PAUSE BUTTON
 // EDGE CASE WITH LINES NOT ADJACENT
 // SOUND / MUTE
 // DROP TO BOTTOM ON SPACEBAR KEYSTROKE
+// SHOW NEXT PIECE ?
+// BORDER CONTROL FOR TURNING ON LAST ROWS - shift up one row, or two?
