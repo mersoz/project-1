@@ -1,9 +1,15 @@
 * {
   box-sizing: border-box;
+  margin: 0;
+}
+
+html {
+  height: 100%;
 }
 
 body {
   background-color: chartreuse; /* #7FFF00 */
+  height: 100%;
 }
 
 div.gameboard {
@@ -20,6 +26,10 @@ div.gameboard {
 div.instructions {
   background-color: pink;
   text-align: center;
+  float: left;
+  position: absolute;
+  top: 0;
+
 }
 
 div.gridblock {

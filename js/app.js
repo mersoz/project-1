@@ -17,7 +17,7 @@ $(() => {
   let rotationIndex = 0;
   let currentRotation = [];
   let index = Math.floor((width-1)/2);    //start dropping from middle of board
-  const dropping = setInterval(letsPlay, 200);
+  const dropping = setInterval(letsPlay, 1000);
 
   // Create an array for each rown with indexes
   //  Push each array into another for all arrays/rows
@@ -73,7 +73,7 @@ $(() => {
     }
   }
 
-  function isSquareFull(element) {
+  function isTrue(element) {
     return element === true;
   }
 
@@ -82,7 +82,7 @@ $(() => {
     for (var g = 0; g < currentRotation.length; g++) {
       occ.push($allGrids.eq(currentRotation[g]+width).hasClass('occupied'));
     }
-    if (occ.some(isSquareFull)) {
+    if (occ.some(isTrue)) {
       return true;
     }
   }
@@ -135,7 +135,7 @@ $(() => {
       var isRowFull = thisArray.map( function(indexNumber) {
         return $allGrids.eq(indexNumber).hasClass('occupied');
       }); //returns array of true and false
-      if (isRowFull.every(isSquareFull)) {
+      if (isRowFull.every(isTrue)) {
         // let l = $allGrids.length;
         let l = thisArray[thisArray.length-1];
         while (l > width) {
@@ -159,13 +159,9 @@ $(() => {
 
   function letsPlay() {
     updateLocation();
+    shiftIfRotationCrossesBorder();
     if (canGoDown()) {
-      for (var g = 0; g < rotationIndices.length; g++) {
-        rotationIndices[g].forEach(function(element, i, arr) {
-          arr[i] += width; //move one down
-        });
-      }
-      updateLocation();
+      updateIndices(width);
     } else {
       occupySquares();
       getNewPiece();
@@ -177,33 +173,56 @@ $(() => {
     }
   }
 
+  function updateIndices(someValue) {
+    for (var g = 0; g < rotationIndices.length; g++) {
+      rotationIndices[g].forEach(function(element, i, arr) {
+        arr[i]+= someValue; //move one down
+      });
+    }
+    updateLocation();
+  }
+
+  function shiftIfRotationCrossesBorder() {
+    console.log('inside border checker');
+    var moduloArray = currentRotation.map( (each) => {
+      return each%width;
+    });
+    console.log(moduloArray);
+
+    var max = Math.max.apply(Math, moduloArray);
+    var min = Math.min.apply(Math, moduloArray);
+    console.log(max, min);
+
+    if (max === width-1 && min === 0) {
+      if (moduloArray.includes(1)) {
+        if (moduloArray.includes(width-2)) {
+          updateIndices(-2);
+          console.log('moving piece 2 left');
+
+        } else {
+          updateIndices(1);
+          console.log('moving piece 1 right');
+
+        }
+      } else if (moduloArray.includes(width-2)) {
+        updateIndices(-1);
+        console.log('moving piece 1 left');
+      }
+    }
+    console.log('-------------');
+  }
+
   //  LISTENERS FOR ARROW KEYS  //
   $(this).keydown((e) => {          // should bind?
     if ( e.which === 37 && canGoLeft() ) {   //while index is not the left-most div
-      for (var g = 0; g < rotationIndices.length; g++) {
-        rotationIndices[g].forEach(function(element, i, arr) {
-          arr[i]-=1; //move one down
-        });
-      }
-      updateLocation();
+      updateIndices(-1);
     } else if ( e.which === 39 && canGoRight() ) {  //while index is not the right-most div
-      for ( g = 0; g < rotationIndices.length; g++) {
-        rotationIndices[g].forEach(function(element, i, arr) {
-          arr[i]+=1; //move one down
-        });
-      }
-      updateLocation();
+      updateIndices(1);
     } else if ( e.which === 40 ) {    //move one rown down
-      for ( g = 0; g < rotationIndices.length; g++) {
-        rotationIndices[g].forEach(function(element, i, arr) {
-          arr[i]+=1*width; //move one down
-        });
-      }
-      updateLocation();
+      updateIndices(width);
     } else if ( e.which === 87 ) {  // W
       rotationIndex++;
       rotationIndex = rotationIndex % rotationIndices.length;
-
     } else if ( e.which === 81 ) {  // Q
       rotationIndex--;
       if (rotationIndex < 0) {
@@ -215,5 +234,10 @@ $(() => {
   });
 });
 
-
-//BORDER CONTROL FOR TURNS
+// BORDER CONTROL FOR TURNS
+// ADD SCORE
+// STYLING
+// PLAY/PAUSE BUTTON
+// EDGE CASE WITH LINES NOT ADJACENT
+// SOUND / MUTE
+// DROP TO BOTTOM ON SPACEBAR KEYSTROKE
