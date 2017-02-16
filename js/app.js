@@ -73,7 +73,7 @@ $(() => {
     for (var p = 0; p < currentRotation.length; p++) {
       $allGrids.eq(currentRotation[p]).addClass('movingPiece');
     }
-    $allGrids.removeClass('movingPiece');
+    console.log(`here: ${rotationIndices}`);
   }
 
   function isSquareFull(element) {
@@ -162,53 +162,30 @@ $(() => {
 
   function letsPlay(){
     updateLocation();
-
-    // GO DOWN ONE ROW
-    // PREVIOUS ATTEMPT //
-    // for (var g = 0; g < currentRotation.length; g++) {
-    //   currentRotation[g]+=width;  // console.log('move one down');
-    //   // index+=width;  // console.log('move one down');
-    // }
-    // console.log(rotationIndices);
     if (canGoDown()) {
-      index+=width;
+      for (var g = 0; g < currentRotation.length; g++) {
+        currentRotation[g]+=width;  // console.log('move one down');
+        // index+=width;  // console.log('move one down');
+      }
+      // index+=width;
       updateLocation();
+      if (Math.min.apply(Math, currentRotation) < width) {
+        endGame();
+      }
     } else {
       occupySquares();
       getNewPiece();
       clearRowShiftDown();
-    }
-    //if top row is filled, end game
-    //otherwise, occupy
-    if (Math.min.apply(Math, currentRotation) < width) {
-      endGame();
-    } else {                // if next row is occupied
       index = Math.floor((width-1)/2);
-      // $allGrids.eq(currentRotation[y]).addClass('occupied');
-      occupySquares();
-      getNewPiece();
     }
   }
 
   //  LISTENERS FOR ARROW KEYS  //
   $(this).keydown((e) => {          // should bind?
-    // if (e.which === 37 && checkLeft ) {   //while index is not the left-most div
     if ( e.which === 37 && canGoLeft() ) {   //while index is not the left-most div
       for (var b = 0; b < currentRotation.length; b++) {
         currentRotation[b]-=1;
-        // rotationIndices.forEach( (m, i, a) => {
-        //   i.forEach( (m, i, a) => {
-        //     a[i]-=1;
-        //   });
-        //   console.log(index);
-        // });
-
-
-        // rotationIndices[b][b]-=1;
-        // rotationIndices[g][b] -= 1;
       }
-
-    // } else if (e.which === 39  &&  index % width !== width - 1 ) {  //while index is not the right-most div
     } else if ( e.which === 39 && canGoRight() ) {  //while index is not the right-most div
       for (var u = 0; u < currentRotation.length; u++) {
         currentRotation[u]+=1;
@@ -217,10 +194,10 @@ $(() => {
       for (var p = 0; p < currentRotation.length; p++) {
         currentRotation[p]+=2*width;
       }
-    } else if ( e.which === 87 ) { // w
+    } else if ( e.which === 87 ) {  // W
       rotationIndex++;
       rotationIndex = rotationIndex % rotationIndices.length;
-    } else if ( e.which === 81 ) {
+    } else if ( e.which === 81 ) {  // Q
       rotationIndex--;
       if (rotationIndex < 0) {
         rotationIndex = rotationIndices.length-1;
@@ -229,5 +206,4 @@ $(() => {
       }
     }
   });
-
 });
