@@ -66,14 +66,11 @@ $(() => {
   }
 
   function updateLocation() {
-    // clear previous location of moving piece
     $allGrids.removeClass('movingPiece');
-    // update currentRotation
     currentRotation = rotationIndices[rotationIndex];
     for (var p = 0; p < currentRotation.length; p++) {
       $allGrids.eq(currentRotation[p]).addClass('movingPiece');
     }
-    console.log(`here: ${rotationIndices}`);
   }
 
   function isSquareFull(element) {
@@ -160,43 +157,53 @@ $(() => {
     }, 500);
   }
 
-  function letsPlay(){
+  function letsPlay() {
     updateLocation();
     if (canGoDown()) {
-      for (var g = 0; g < currentRotation.length; g++) {
-        currentRotation[g]+=width;  // console.log('move one down');
-        // index+=width;  // console.log('move one down');
+      for (var g = 0; g < rotationIndices.length; g++) {
+        rotationIndices[g].forEach(function(element, i, arr) {
+          arr[i] += width; //move one down
+        });
       }
-      // index+=width;
       updateLocation();
-      if (Math.min.apply(Math, currentRotation) < width) {
-        endGame();
-      }
     } else {
       occupySquares();
       getNewPiece();
       clearRowShiftDown();
       index = Math.floor((width-1)/2);
     }
+    if (Math.min.apply(Math, currentRotation) < width) {
+      endGame();
+    }
   }
 
   //  LISTENERS FOR ARROW KEYS  //
   $(this).keydown((e) => {          // should bind?
     if ( e.which === 37 && canGoLeft() ) {   //while index is not the left-most div
-      for (var b = 0; b < currentRotation.length; b++) {
-        currentRotation[b]-=1;
+      for (var g = 0; g < rotationIndices.length; g++) {
+        rotationIndices[g].forEach(function(element, i, arr) {
+          arr[i]-=1; //move one down
+        });
       }
+      updateLocation();
     } else if ( e.which === 39 && canGoRight() ) {  //while index is not the right-most div
-      for (var u = 0; u < currentRotation.length; u++) {
-        currentRotation[u]+=1;
+      for ( g = 0; g < rotationIndices.length; g++) {
+        rotationIndices[g].forEach(function(element, i, arr) {
+          arr[i]+=1; //move one down
+        });
       }
+      updateLocation();
     } else if ( e.which === 40 ) {    //move one rown down
-      for (var p = 0; p < currentRotation.length; p++) {
-        currentRotation[p]+=2*width;
+      for ( g = 0; g < rotationIndices.length; g++) {
+        rotationIndices[g].forEach(function(element, i, arr) {
+          arr[i]+=1*width; //move one down
+        });
       }
+      updateLocation();
     } else if ( e.which === 87 ) {  // W
       rotationIndex++;
       rotationIndex = rotationIndex % rotationIndices.length;
+
     } else if ( e.which === 81 ) {  // Q
       rotationIndex--;
       if (rotationIndex < 0) {
@@ -207,3 +214,6 @@ $(() => {
     }
   });
 });
+
+
+//BORDER CONTROL FOR TURNS
