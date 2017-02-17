@@ -3,32 +3,41 @@
   <head>
     <meta charset="utf-8">
     <title>Tetris</title>
-    <!-- <link href="https://fonts.googleapis.com/css?family=Cinzel:900" rel="stylesheet"> -->
-    <link href="https://fonts.googleapis.com/css?family=Cinzel:900|Press+Start+2P" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P|Quicksand:400,700" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="js/app.js" charset="utf-8"></script>
   </head>
+
   <body>
-    <header></header>
+    <audio id="themeSong" loop>
+      <source src="./sounds/TheProdigySmackMyBitchUp.mp3"  type="audio/mpeg">
+      Your browser does not support the <code>audio</code> element.
+    </audio>
+    <audio id="smackThat">
+      <source src="./sounds/AkonSmackThat.mp3"  type="audio/mpeg">
+      Your browser does not support the <code>audio</code> element.
+    </audio>
 
     <main class="clearfix">
-      <!-- <aside class="leftSide"></aside> -->
+
       <button class="startGame">STACK MY BITS UP</button>
+
       <div class="gameboard blur"></div>
       <div class="sidebar clearfix blur">
+
         <div class="scoreboard">Score: <span class="score"></span></div>
         <div class="instructions">
           <p>Press <strong>w</strong> to rotate clockwise</p>
           <p>Press <strong>q</strong> to rotate counter-clockwise</p>
         </div>
+
         <button class="sidebuttons pause">Pause</button>
         <button class="sidebuttons mute">Mute</button>
+
       </div>
-
-      <aside class="rightSide"></aside>
-
     </main>
-    <footer>Made with &hearts; by Muge Ersoz at GA London</footer>
   </body>
+
+  <footer>Made with &hearts; by Muge Ersoz at GA London</footer>
 </html>

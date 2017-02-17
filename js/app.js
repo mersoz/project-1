@@ -18,6 +18,8 @@ $(() => {
   const $play = $('.startGame');
   const $pause = $('.pause');
   const $mute = $('.mute');
+  const themeSong = document.getElementById('themeSong');
+  const smackThat = document.getElementById('smackThat');
 
   // Initialize stuff
   let rotationIndex = 0;
@@ -27,6 +29,7 @@ $(() => {
   let score = 0;
   let paused = true;
   $score.html(score);
+  themeSong.play();
 
   // Create an array for each rown with indexes
   //  Push each array into another for all arrays/rows
@@ -165,7 +168,7 @@ $(() => {
     rotationIndex = 0;
   }
 
-//== potential glitch: when two non-adjacent rows are cleared, the mid-not-full row will probably clear as well ==//
+//== potential glitch NOT TESTED: when two non-adjacent rows are cleared, the mid-not-full row will probably clear as well ? maybe ==//
   function clearRowShiftDown() {
     arrayOfRows.forEach( (thisArray) => {
       var isRowFull = thisArray.map( function(indexNumber) {
@@ -182,6 +185,11 @@ $(() => {
           $allGrids.eq(l).attr('class', classToChangeTo);
           l--;
         }
+        themeSong.pause();
+        smackThat.play();
+        setTimeout( () => {
+          themeSong.play();
+        }, 3000);
       }
     });
   }
@@ -239,7 +247,7 @@ $(() => {
     }
   }
 
-  //  LISTENERS  //
+  //    LISTENERS   //
   $play.on('click', (e) => {
     $(e.target).animate({
       top: '4%'
@@ -254,7 +262,7 @@ $(() => {
       setTimeout( () => {
         dropping = setInterval( () => {
           letsPlay();
-        }, 200);
+        }, 100);
       }, 1000);
     }
   });
@@ -272,12 +280,17 @@ $(() => {
       paused = true;
       clearInterval(dropping);
     }
+  });
 
-    $mute.on('click', (e) => {
-      $(e.target).text(function(i, text){
-        return text === 'Mute' ? 'Unmute' : 'Mute';
-      });
+  $mute.on('click', (e) => {
+    $(e.target).text(function(i, text){
+      return text === 'Mute' ? 'Unmute' : 'Mute';
     });
+    if (themeSong.paused) {
+      themeSong.play();
+    } else {
+      themeSong.pause();
+    }
   });
 
   $(this).keydown((e) => {        // should bind?
@@ -301,43 +314,3 @@ $(() => {
     }
   });
 });
-
-// STYLING
-// PLAY/PAUSE BUTTON
-// EDGE CASE WITH LINES NOT ADJACENT
-// SOUND / MUTE
-// DROP TO BOTTOM ON SPACEBAR KEYSTROKE
-// SHOW NEXT PIECE ?
-// BORDER CONTROL FOR TURNING ON LAST ROWS - shift up one row, or two?
-// Bug/feature: WHEN DOWN BUTTON IS HELD DOWN, IT SINKS ONE ROW TOO MANY
-
-
-// POSSIBLE AUDIO  ?? CHANGE WITH LEVELS?
-// Georges Bizet - Prelude to Act I from Carmen
-// https://www.youtube.com/watch?v=cvny0Mssa04
-//
-// Johann Strauss - Auf Der Jagd
-// https://www.youtube.com/watch?v=njXfuve1VXs
-//
-// Aram Khachaturian - Sabre Dance
-// https://www.youtube.com/watch?v=gqg3l3r_DRI
-//
-// Korobeiniki
-// https://www.youtube.com/watch?v=2l-yUHo44hc
-// from 00:41
-//
-// Radetzky March, Op. 228 (Strauss I)
-// https://www.youtube.com/watch?v=d4AmYBhGBfM
-// from 11:57
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//

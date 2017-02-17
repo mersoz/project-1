@@ -1,0 +1,26 @@
+
+=> EDGE CASE WITH LINES NOT ADJACENT
+=> ADD LEVELS TO SPEED UP FALL
+=> DROP TO BOTTOM ON SPACEBAR KEYSTROKE
+=> SHOW NEXT PIECE ?
+=> BORDER CONTROL FOR TURNING ON LAST ROWS - shift up one row, or two?
+=> Bug/feature: WHEN DOWN BUTTON IS HELD DOWN, IT SINKS ONE ROW TOO MANY
+
+
+POSSIBLE AUDIO  ?? CHANGE WITH LEVELS?
+Georges Bizet - Prelude to Act I from Carmen
+https://www.youtube.com/watch?v=cvny0Mssa04
+
+Johann Strauss - Auf Der Jagd
+https://www.youtube.com/watch?v=njXfuve1VXs
+
+Aram Khachaturian - Sabre Dance
+https://www.youtube.com/watch?v=gqg3l3r_DRI
+
+Korobeiniki
+https://www.youtube.com/watch?v=2l-yUHo44hc
+from 00:41
+
+Radetzky March, Op. 228 (Strauss I)
+https://www.youtube.com/watch?v=d4AmYBhGBfM
+from 11:57
