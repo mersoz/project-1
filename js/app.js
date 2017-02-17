@@ -6,8 +6,10 @@ $(() => {
   const height = 20;
   const numberOfGrids = width*height;
 
-  const $scoreboard = $('.scoreboard');
+  // const $scoreboard = $('.scoreboard');
+  const $score = $('.score');
   const $gameboard = $('.gameboard');
+  const $sidebar = $('.sidebar');
   for (var i = 0; i < numberOfGrids; i++) {
     var $gridblock = $('<div>', {'class': 'gridblock'});
     $gameboard.append($gridblock);
@@ -20,8 +22,8 @@ $(() => {
   let currentRotation = [];
   let index = Math.floor((width-1)/2);    //start dropping from middle of board
   let dropping = null;
-  let score = 0;
-  $scoreboard.html(score);
+  let score = 100;
+  $score.html(score);
 
   // Create an array for each rown with indexes
   //  Push each array into another for all arrays/rows
@@ -38,11 +40,11 @@ $(() => {
   const shapeColors = {
     'O': '#ff6961',
     'I': '#ffb347',
-    'S': '#fdfd96',
+    'S': '#fcfc4b',
     'Z': '#77dd77',
-    'L': '#aec6cf',
+    'L': '#8bcde5',
     'J': '#b19cd9',
-    'T': '#ffd1dc'
+    'T': '#ff9eb5'
   };
 
   let randomShapeName = shapeNames[Math.floor(Math.random() * shapeNames.length)];
@@ -168,7 +170,7 @@ $(() => {
       }); //returns array of true and false
       if (isRowFull.every(isTrue)) {
         score+=width;
-        $scoreboard.html(score);
+        $score.html(score);
         let l = thisArray[thisArray.length-1];
         while (l > width) {
           var colorToChangeTo = $allGrids.eq(l-width).css('background-color');
@@ -235,7 +237,14 @@ $(() => {
   }
 
   //  LISTENERS FOR ARROW KEYS  //
-  $play.on('click', () => {
+  $play.on('click', (e) => {
+    $(e.target).animate({
+      top: '4%'
+    });
+    setTimeout( () => {
+      $gameboard.removeClass('blur');
+      $sidebar.removeClass('blur');
+    }, 600);
     reSetGame();
     setTimeout( () => {
       dropping = setInterval(letsPlay, 200);
@@ -271,3 +280,35 @@ $(() => {
 // DROP TO BOTTOM ON SPACEBAR KEYSTROKE
 // SHOW NEXT PIECE ?
 // BORDER CONTROL FOR TURNING ON LAST ROWS - shift up one row, or two?
+// Bug/feature: WHEN DOWN BUTTON IS HELD DOWN, IT SINKS ONE ROW TOO MANY
+
+
+// POSSIBLE AUDIO  ?? CHANGE WITH LEVELS?
+// Georges Bizet - Prelude to Act I from Carmen
+// https://www.youtube.com/watch?v=cvny0Mssa04
+//
+// Johann Strauss - Auf Der Jagd
+// https://www.youtube.com/watch?v=njXfuve1VXs
+//
+// Aram Khachaturian - Sabre Dance
+// https://www.youtube.com/watch?v=gqg3l3r_DRI
+//
+// Korobeiniki
+// https://www.youtube.com/watch?v=2l-yUHo44hc
+// from 00:41
+//
+// Radetzky March, Op. 228 (Strauss I)
+// https://www.youtube.com/watch?v=d4AmYBhGBfM
+// from 11:57
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//

@@ -3,70 +3,112 @@
   margin: 0 auto;
 }
 
-html {
+html, body, main {
   height: 100%;
 }
 
 body {
-  background-color: chartreuse; /* #7FFF00 */
+  background-color: #220791; /* #7FFF00 */
 }
 
 main {
+  width: 550px;
+  position: relative;
+  border: 1px solid transparent;
   text-align: center;
+  box-sizing: content-box;
+
 }
 
-section {
-  width: 400px;
+div.gameboard {
+  z-index: 9000;
+  box-sizing: content-box;
+  height: 500px;
+  width: 300px;
+  margin: 90px 0;
+  float: left;
+  /*border: 2px solid black;*/
+  border: 2px solid black;
+
+  background-color: lightblue;
+  overflow: clear;
+}
+
+.sidebar {
+  z-index: 9999;
+  box-sizing: content-box;
+  margin-top: 90px;
+  margin-right: 0;
+  width: 250px;
+  height: 500px;
+
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
+  border-right: 2px solid black;
+  background-color: #769107;
 }
 
 div.instructions {
-  float: left;
   top: 100px;
-  position: absolute;
   padding: 10px;
-  margin: 10px;
-
-  background-color: pink;
+  margin: 10px auto;
+  width: 200px;
+  border: 1px solid black;
   text-align: center;
 }
 
 div.scoreboard {
   height: 50px;
-  width: 50px;
-  background-color: red;
-  float: right;
-  position: absolute;
-  top: 0;
-  right: 0;
+  width: 200px;
+  /*border: 1px solid black;*/
+  margin: 30px auto;
+  line-height: 50px;
+  font-size: 15px;
+  font-family: 'Press Start 2P', cursive;
+
+  position: relative;
+  top: 5%;
+  transform: translateY(-50%);}
+}
+
+span.score {
+  vertical-align: middle;
 }
 
 p {
-padding: 10px;
+  padding: 10px;
+  vertical-align: middle;
 }
 
 button.startGame {
+  z-index: 1;
+  font-family: 'Press Start 2P', cursive;
   margin: 20px auto;
-  width: 400px;
+  width: 100%;
   height: 50px;
+  font-size: 30px;
 
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
-button.pause {
+button.sidebuttons {
   margin: 0 auto;
-  width: 200px;
+  width: 90%;
   height: 50px;
 }
 
-/*  GAME SPECS  */
-div.gameboard {
-  height: 500px;
-  width: 300px;
-  margin: 20px auto;
-  border: 1px solid black;
-
-  box-sizing: content-box;
-  overflow: clear;
-  background-color: lightblue;
+footer {
+  padding: 10px;
+  height: 30px;
+  width: 100%;
+  background-color: black;
+  color: white;
+  position: absolute;
+  bottom: 0;
+  text-align: center;
 }
 
 div.gridblock {
@@ -85,16 +127,24 @@ div.movingPiece {
   /*COLORS
   O: #ff6961 - red
   I: #ffb347 - orange
-  S: #fdfd96 - yellow
+  S: #fdfd96 - yellow //fcfc4b
   Z: #77dd77 - green
-  L: #aec6cf - blue
+  L: #aec6cf - blue //8bcde5
   J: #b19cd9 - purple
-  T: #ffd1dc - pink
+  T: #ffd1dc - pink //ff9eb5
   */
 }
 
 div.occupied {
-  /*background-color: grey;*/
   border: 1px solid black;
+}
 
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.blur {
+  filter: blur(5px);
 }

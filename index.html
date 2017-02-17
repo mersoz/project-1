@@ -3,23 +3,28 @@
   <head>
     <meta charset="utf-8">
     <title>Tetris</title>
+    <!-- <link href="https://fonts.googleapis.com/css?family=Cinzel:900" rel="stylesheet"> -->
+    <link href="https://fonts.googleapis.com/css?family=Cinzel:900|Press+Start+2P" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="js/app.js" charset="utf-8"></script>
   </head>
   <body>
-    <main>
-      <section>
-        <button class="startGame">Let's play Tetris</button>
-        <div class="gameboard"></div>
-      </section>
-      <div class="scoreboard"></div>
-      <div class="instructions">
-        <p>Press w to rotate clockwise</p>
-        <p>Press q to rotate counter-clockwise</p>
-        <button class="pause">Pause/Resume</button>
+    <header></header>
+    <main class="clearfix">
+      <button class="startGame">STACK MY BITS UP</button>
+      <div class="gameboard blur"></div>
+      <div class="sidebar clearfix blur">
+        <div class="scoreboard">Score: <span class="score"></span></div>
+        <div class="instructions">
+          <p>Press <strong>w</strong> to rotate clockwise</p>
+          <p>Press <strong>q</strong> to rotate counter-clockwise</p>
+        </div>
+        <button class="sidebuttons pause">Pause/Resume</button>
+        <button class="sidebuttons mute">Mute/Unmute</button>
       </div>
 
     </main>
+    <footer>Made with &hearts; by Muge Ersoz at GA London</footer>
   </body>
 </html>
