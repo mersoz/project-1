@@ -15,14 +15,17 @@ $(() => {
     $gameboard.append($gridblock);
   }
   const $allGrids = $('div.gridblock');
-  const $play = $('button');
+  const $play = $('.startGame');
+  const $pause = $('.pause');
+  const $mute = $('.mute');
 
   // Initialize stuff
   let rotationIndex = 0;
   let currentRotation = [];
   let index = Math.floor((width-1)/2);    //start dropping from middle of board
   let dropping = null;
-  let score = 100;
+  let score = 0;
+  let paused = true;
   $score.html(score);
 
   // Create an array for each rown with indexes
@@ -236,7 +239,7 @@ $(() => {
     }
   }
 
-  //  LISTENERS FOR ARROW KEYS  //
+  //  LISTENERS  //
   $play.on('click', (e) => {
     $(e.target).animate({
       top: '4%'
@@ -246,9 +249,35 @@ $(() => {
       $sidebar.removeClass('blur');
     }, 600);
     reSetGame();
-    setTimeout( () => {
-      dropping = setInterval(letsPlay, 200);
-    }, 1000);
+    paused = false;
+    if (!paused) {
+      setTimeout( () => {
+        dropping = setInterval( () => {
+          letsPlay();
+        }, 200);
+      }, 1000);
+    }
+  });
+
+  $pause.on('click', (e) => {
+    $(e.target).text(function(i, text){
+      return text === 'Pause' ? 'Resume' : 'Pause';
+    });
+    if (paused) {
+      paused = false;
+      dropping = setInterval( () => {
+        letsPlay();
+      }, 200);
+    } else {
+      paused = true;
+      clearInterval(dropping);
+    }
+
+    $mute.on('click', (e) => {
+      $(e.target).text(function(i, text){
+        return text === 'Mute' ? 'Unmute' : 'Mute';
+      });
+    });
   });
 
   $(this).keydown((e) => {        // should bind?
