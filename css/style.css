@@ -30,11 +30,8 @@ main {
 div.gameboard {
   z-index: 9000;
   box-sizing: content-box;
-  height: 500px;
-  width: 300px;
   margin: 110px 0;
   float: left;
-  /*border: 2px solid black;*/
   border: 2px solid black;
 
   background-color: lightblue;
@@ -118,11 +115,12 @@ footer {
   padding: 10px;
   position: fixed;
   bottom: 0;
-  text-align: center;
 
+  text-align: center;
   background-color: black;
   color: white;
-
+  font-family: 'Press Start 2P', cursive;
+  font-size: 10px;
 }
 
 div.gridblock {

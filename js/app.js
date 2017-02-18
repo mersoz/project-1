@@ -10,9 +10,14 @@ $(() => {
   const $score = $('.score');
   const $gameboard = $('.gameboard');
   const $sidebar = $('.sidebar');
-  for (var i = 0; i < numberOfGrids; i++) {
-    var $gridblock = $('<div>', {'class': 'gridblock'});
-    $gameboard.append($gridblock);
+
+  for (var h = 0; h < height; h++) {
+    for (var w = 0; w < width; w++) {
+      var $gridblock = $('<div>', {'class': 'gridblock'});
+      $gameboard.append($gridblock);
+    }
+    var $breakline = $('<br>');
+    $gameboard.append($breakline);
   }
   const $allGrids = $('div.gridblock');
   const $play = $('.startGame');
@@ -68,7 +73,7 @@ $(() => {
     var shapesAvailable = {
       O: [[index, index+width, index+1, index+width+1]],
 
-      I: [[index, index+width, index+(2*width), index+(3*width)],
+      I: [[index+1, index+width+1, index+(2*width)+1, index+(3*width)+1],
          [index-1, index, index+1, index+2]],
 
       S: [[index+1, index+2, index+width, index+width+1],
@@ -120,6 +125,7 @@ $(() => {
     const occ = [];
     for (var g = 0; g < currentRotation.length; g++) {
       occ.push($allGrids.eq(currentRotation[g]+width).hasClass('occupied'));
+      // occ.push($allGrids.eq(currentRotation[g]+(2*width).hasClass('occupied'));
     }
     if (occ.some(isTrue)) {
       return true;
@@ -131,6 +137,10 @@ $(() => {
       return currentRotation.every((index) => {
         return index < numberOfGrids - width;
       });
+    // } else if (nextRowInBounds()) {
+    //   return currentRotation.every((index) => {     //lowest value
+    //     return index + width !== 0;
+    //   });
     }
   }
 
@@ -262,7 +272,7 @@ $(() => {
       setTimeout( () => {
         dropping = setInterval( () => {
           letsPlay();
-        }, 100);
+        }, 300);
       }, 1000);
     }
   });
@@ -299,7 +309,7 @@ $(() => {
     } else if ( e.which === 39 && canGoRight() ) {  //while index is not the right-most div
       updateIndices(1);
     } else if ( e.which === 40 ) {    //move one rown down
-      e.preventDefault();
+      // e.preventDefault();
       updateIndices(width);
     } else if ( e.which === 87 ) {  // W
       rotationIndex++;
@@ -311,6 +321,13 @@ $(() => {
       } else {
         rotationIndex = rotationIndex % rotationIndices.length;
       }
+    } else if ( e.which === 77 ) {  // M
+      if (themeSong.paused) {
+        themeSong.play();
+      } else {
+        themeSong.pause();
+      }
     }
+
   });
 });

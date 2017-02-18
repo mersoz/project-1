@@ -9,7 +9,7 @@ This Tetris variation was created using HTML, CSS, JavaScript/JQuery for Web Dev
 * Clear lines by filling the whole row
 * Don't let it stack up to the top!
 
-[Play it here.](damp-citadel-12920.herokuapp.com)
+[Play it here.](https://stackmybitsup.herokuapp.com)
 
 ##Controls
 * L/R Arrows = move piece left and right
