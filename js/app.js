@@ -75,6 +75,7 @@ $(() => {
       $allGrids.eq(index).css('background-color', $gridblockColor);
     });
     score = 0;
+    $scoreDisplay.html(score);
   }
 
   function spawnPiece(name, index) {
