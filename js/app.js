@@ -38,6 +38,7 @@ $(() => {
   let dropping = null;
   let score = 0;
   let paused = true;
+  let muted = false;
   $scoreDisplay.html(score);
   var highscore = localStorage.getItem('highscore');
   $highScore.html(highscore);
@@ -69,7 +70,7 @@ $(() => {
   let randomShapeName = shapeNames[Math.floor(Math.random() * shapeNames.length)];
   let rotationIndices = spawnPiece(randomShapeName, index);
 
-  function reSetGame() {
+  function resetGame() {
     $allGrids.removeClass('movingPiece').removeClass('occupied');
     $.each($allGrids, (index) => {
       $allGrids.eq(index).css('background-color', $gridblockColor);
@@ -175,6 +176,17 @@ $(() => {
     });
   }
 
+  function canSpeedDown() {
+    for (var l = 0; l < currentRotation.length; l++) {   //check for occupied one left (index-1)
+      if ($allGrids.eq(currentRotation[l]+width).hasClass('occupied')) {
+        return false;
+      }
+    }
+    return currentRotation.every((index) => {
+      return index + width < numberOfGrids;
+    });
+  }
+
   function occupySquares() {
     for (var y = 0; y < currentRotation.length; y++) {
       $allGrids.eq(currentRotation[y]).addClass('occupied');
@@ -208,12 +220,13 @@ $(() => {
           l--;
         }
         $highScore.html(localStorage.getItem('highscore'));
-
-        themeSong.pause();
-        smackThat.play();
-        setTimeout( () => {
-          themeSong.play();
-        }, 3000);
+        if (!muted) {
+          themeSong.pause();
+          smackThat.play();
+          setTimeout( () => {
+            themeSong.play();
+          }, 3000);
+        }
       }
     });
   }
@@ -289,7 +302,7 @@ $(() => {
       $gameboard.removeClass('blur');
       $sidebar.removeClass('blur');
     }, 600);
-    reSetGame();
+    resetGame();
     paused = false;
     if (!paused) {
       setTimeout( () => {
@@ -321,8 +334,10 @@ $(() => {
     });
     if (themeSong.paused) {
       themeSong.play();
+      muted = false;
     } else {
       themeSong.pause();
+      muted = true;
     }
   });
 
@@ -331,7 +346,7 @@ $(() => {
       updateIndices(-1);
     } else if ( e.which === 39 && canGoRight() ) {  //while index is not the right-most div
       updateIndices(1);
-    } else if ( e.which === 40 ) {    //move one rown down
+    } else if ( e.which === 40 && canSpeedDown() ){    //move one rown down
       // e.preventDefault();
       updateIndices(width);
     } else if ( e.which === 87 ) {  // W
