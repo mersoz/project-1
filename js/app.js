@@ -7,7 +7,8 @@ $(() => {
   const numberOfGrids = width*height;
 
   // const $scoreboard = $('.scoreboard');
-  const $score = $('.score');
+  const $scoreDisplay = $('.score');
+  const $highScore = $('.highscore');
   const $gameboard = $('.gameboard');
   const $sidebar = $('.sidebar');
 
@@ -19,12 +20,16 @@ $(() => {
     var $breakline = $('<br>');
     $gameboard.append($breakline);
   }
+  var $gridblockColor = $('.gridblock').css('background-color');
+  // console.log($allGrids[0].css('background-color'));
+
   const $allGrids = $('div.gridblock');
   const $play = $('.startGame');
   const $pause = $('.pause');
   const $mute = $('.mute');
   const themeSong = document.getElementById('themeSong');
   const smackThat = document.getElementById('smackThat');
+  // const gridBackgroundColor = $allGrids
 
   // Initialize stuff
   let rotationIndex = 0;
@@ -33,7 +38,10 @@ $(() => {
   let dropping = null;
   let score = 0;
   let paused = true;
-  $score.html(score);
+  $scoreDisplay.html(score);
+  var highscore = localStorage.getItem('highscore');
+  $highScore.html(highscore);
+
   themeSong.play();
 
   // Create an array for each rown with indexes
@@ -64,7 +72,7 @@ $(() => {
   function reSetGame() {
     $allGrids.removeClass('movingPiece').removeClass('occupied');
     $.each($allGrids, (index) => {
-      $allGrids.eq(index).css('background-color', 'lightgrey');
+      $allGrids.eq(index).css('background-color', $gridblockColor);
     });
     score = 0;
   }
@@ -186,7 +194,10 @@ $(() => {
       }); //returns array of true and false
       if (isRowFull.every(isTrue)) {
         score+=width;
-        $score.html(score);
+        $scoreDisplay.html(score);
+        if (score > highscore) {
+          localStorage.setItem('highscore', score );
+        }
         let l = thisArray[thisArray.length-1];
         while (l > width) {
           var colorToChangeTo = $allGrids.eq(l-width).css('background-color');
@@ -195,6 +206,8 @@ $(() => {
           $allGrids.eq(l).attr('class', classToChangeTo);
           l--;
         }
+        $highScore.html(localStorage.getItem('highscore'));
+
         themeSong.pause();
         smackThat.play();
         setTimeout( () => {
@@ -225,6 +238,15 @@ $(() => {
       index = Math.floor((width-1)/2);
     }
     if (Math.min.apply(Math, currentRotation) < width) {
+      // localStorage.setItem('highscores', 0);
+      if(highscore !== null){
+        if (score > highscore) {
+          localStorage.setItem('highscore', score );
+        }
+      } else {
+        localStorage.setItem('highscore', score );
+      }
+      console.log(highscore);
       endGame();
     }
   }
