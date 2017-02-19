@@ -82,6 +82,10 @@ p {
   vertical-align: middle;
 }
 
+a {
+  text-decoration: none;
+}
+
 button.startGame {
   z-index: 1;
   font-family: 'Press Start 2P', cursive;
