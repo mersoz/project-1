@@ -12,7 +12,7 @@ This Tetris variation was created using HTML, CSS, JavaScript/JQuery for Web Dev
 [Play it here.](https://stackmybitsup.herokuapp.com)
 
 ##Controls
-* L/R Arrows = move piece left and right
+* Left / Right Arrows = move piece left / right
 * Down Arrow = move piece one row down
 * W = turn clockwise
 * Q = turn counter-clockwise
@@ -20,6 +20,19 @@ This Tetris variation was created using HTML, CSS, JavaScript/JQuery for Web Dev
 
 
 ####Approach / How it works
+
+Started off by building a 3x4 board, with one lit up square moving down and staying at the bottom row.
+
+![](./screenshots/1.gif)
+
+Next was making the piece occupy the last row available.
+
+![](./screenshots/2.gif)
+
+Next step, ability to move left / right / down with arrow keys. Then, increase grids.
+
+![](./screenshots/3.gif)
+
 
 Current version has 20 rows and 12 columns, so a total of 240 gridblocks. The row and column numbers can be changed in the JavaScript file and the gameboard will work for any combination (I think).
 
@@ -42,8 +55,9 @@ Each moving piece is defined by a div (of the whole grid) with a class, which ge
 
 
 #### Problems & Challenges
-Too many to list or remember...
-
+* Shape rotations
+* Border control (on move and rotate)
+* Dropping rows after clearing one/many
 
 
 

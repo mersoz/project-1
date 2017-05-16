@@ -2,7 +2,9 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Tetris</title>
+    <title>Stack My Bits Up</title>
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="./favicon.ico" type="image/x-icon" />
     <link href="https://fonts.googleapis.com/css?family=Press+Start+2P|Quicksand:400,700" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -20,8 +22,15 @@
     </audio>
 
     <main class="clearfix">
-
-      <button class="startGame">STACK MY BITS UP</button>
+      <div class="landing">
+        <button class="startGame">STACK MY BITS UP</button>
+        <div class="instructions">
+          <p><span class="key">w</span>Rotate clockwise</p>
+          <p><span class="key">q</span>Rotate counter-clockwise</p>
+          <p><span class="key">m</span>Mute / Unmute</p>
+          <p><span class="key">p</span>Pause / Resume</p>
+        </div>
+      </div>
       <!-- <div class="" -->
 
       <div class="gameboard blur"></div>
@@ -30,11 +39,6 @@
         <div class="scoreboard">
           Score: <span class="score"></span></br>
           High Score: <span class="highscore"></span>
-        </div>
-        <div class="instructions">
-          <p>Press <strong>w</strong> to rotate clockwise</p>
-          <p>Press <strong>q</strong> to rotate counter-clockwise</p>
-          <p>Press <strong>m</strong> to mute</p>
         </div>
 
         <button class="sidebuttons unclickable pause">Pause</button>

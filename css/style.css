@@ -19,7 +19,7 @@ section {
 }
 
 main {
-  width: 550px;
+  width: 45vw;
   position: relative;
   border: 1px solid transparent;
   text-align: center;
@@ -30,40 +30,52 @@ main {
 div.gameboard {
   z-index: 9000;
   box-sizing: content-box;
-  margin: 110px 0;
+  margin: 5rem 0;
   float: left;
-  border: 2px solid black;
-
+  /*border: 2px outset black;*/
+  border: 16px outset #1a0086;
   background-color: lightgrey;
   overflow: clear;
 }
 
 .sidebar {
-  z-index: 9999;
+  z-index: 05;
   box-sizing: content-box;
-  margin-top: 110px;
+  margin-top: 5rem;
   margin-right: 0;
-  width: 250px;
-  height: 500px;
+  width: 30vw;
+  height: 30rem;
+  color: white;
 
-  border-top: 2px solid black;
-  border-bottom: 2px solid black;
-  border-right: 2px solid black;
-  background-color: #769107;
+  border: 16px inset #1a0086;
+  border-left: none;
+  /*background-color: #769107;*/
 }
 
 div.instructions {
+  box-sizing: border-box;
   top: 100px;
   padding: 10px;
-  margin: 20px auto;
-  width: 200px;
+
   height: 200px;
-  border: 1px solid black;
+  border: .2rem inset #c0c0c1;
+  text-align: left;
+  background-color: #c0c0c1;
+}
+
+span.key {
+  display: inline-block;
+  width: 2rem;
   text-align: center;
+  background-color: #dcdcdc;
+  padding: 4px;
+  margin-right: 1rem;
+  border: 3px outset #c0c0c1;
+  text-transform: uppercase;
 }
 
 div.scoreboard {
-  width: 200px;
+  /*width: 200px;*/
   /*border: 1px solid black;*/
   margin: 20px auto;
   line-height: 50px;
@@ -78,31 +90,41 @@ span.score {
 }
 
 p {
-  padding: 8% 10px;
+  margin: .5rem auto;
   vertical-align: middle;
+  transform: translateX(30%);
 }
 
 a {
   text-decoration: none;
 }
 
-button.startGame {
+button {
+  background-color: rgba(220, 220, 220, 1);
+  cursor: pointer;
+}
+
+div.landing {
   z-index: 1;
-  font-family: 'Press Start 2P', cursive;
   margin: 20px auto;
+  position: absolute;
+  top: 40%;
+  transform: translateY(-50%);
+  width: 100%;
+
+}
+
+button.startGame {
+  font-family: 'Press Start 2P', cursive;
   width: 100%;
   height: 50px;
   font-size: 30px;
-
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  border: .2rem outset rgb(220, 220, 220);
 }
 
 button.sidebuttons {
   margin: 5px auto;
-  width: 200px;
+  /*width: 200px;*/
   height: 50px;
 
   border: 2px solid black;
@@ -125,21 +147,25 @@ footer {
 }
 
 div.gridblock {
-  height: 25px;
-  width: 25px;
+  height: 1.5rem;
+  width: 1.5rem;
   float: left;
 
+
   background-color: lightgrey; /* #D3D3D3 */
-  border: 1px solid grey; /* #808080 */
-  /*border-radius: 10px;*/
+  outline: 1px solid grey; /* #808080 */
 }
 
 div.movingPiece {
   float: left;
   background-color: gold; /* #FFD700 */
-  border: 1px solid black;
-  border-radius: 2px;
+  border-radius: 1.5rem;
 
+  font-family: 'Press Start 2P';
+  font-size: 0.8rem;
+  line-height: 1.1rem;
+  text-align: center;
+  color: rgba(0, 0, 0, .4);
 
   /*COLORS
   O: #ff6961 - red
@@ -153,7 +179,13 @@ div.movingPiece {
 }
 
 div.occupied {
-  border: 1px solid black;
+  /*border: 1px solid black;*/
+  border-radius: 1.5rem;
+  font-family: 'Press Start 2P';
+  font-size: 0.8rem;
+  line-height: 1.1rem;
+  text-align: center;
+  color: rgba(0,0,0,.4);
 }
 
 .clearfix:after {
